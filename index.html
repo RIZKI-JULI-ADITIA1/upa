@@ -278,14 +278,24 @@ function load(){
    {top:"22%",right:"6%"},
    {bottom:"12%",left:"50%",transform:"translateX(-50%)"}
   ];
-  ["photo1.jpeg","photo2.jpeg","photo3.jpeg"].forEach((p,j)=>{
-   const d=document.createElement("div");
-   d.className="photo";
-   d.innerHTML=`<img src="${p}"><span>🤍</span>`;
-   Object.assign(d.style,pos[j]);
-   photoWrap.appendChild(d);
-   setTimeout(()=>d.classList.add("show"),1200*j);
-  });
+ const photoData=[
+ {src:"photo1.jpeg", cap:"Senyummu selalu bikin aku tenang 🤍"},
+ {src:"photo2.jpeg", cap:"Tanpa sadar, kamu jadi rumah"},
+ {src:"photo3.jpeg", cap:"Aku jatuh… pelan-pelan, tapi dalam"}
+];
+
+photoData.forEach((p,j)=>{
+ const d=document.createElement("div");
+ d.className="photo";
+ d.innerHTML=`
+  <img src="${p.src}">
+  <span>${p.cap}</span>
+ `;
+ Object.assign(d.style,pos[j]);
+ photoWrap.appendChild(d);
+ setTimeout(()=>d.classList.add("show"),1200*j);
+});
+
   return;
  }
  bg.src=s.video;
