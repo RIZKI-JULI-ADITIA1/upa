@@ -7,73 +7,22 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
  margin:0;height:100vh;overflow:hidden;
  font-family:'Segoe UI',system-ui,sans-serif;
  background:black;color:white;
 }
 
-/* ================= POPUP INTRO ================= */
-#intro{
- position:fixed;
- inset:0;
- background:linear-gradient(180deg,#7b9dff,#b7c7ff);
- display:flex;
- justify-content:center;
- align-items:center;
- flex-direction:column;
- z-index:9999;
-}
-
-.intro-bubble{
- background:white;
- color:#333;
- padding:16px 20px;
- border-radius:18px;
- max-width:260px;
- font-size:.95rem;
- line-height:1.6;
- position:relative;
- margin-bottom:20px;
- animation:pop .4s ease;
-}
-
-.intro-bubble::after{
- content:"";
- position:absolute;
- bottom:-10px;
- left:30px;
- border-width:10px 10px 0;
- border-style:solid;
- border-color:white transparent transparent;
-}
-
-@keyframes pop{
- from{opacity:0;transform:scale(.85)}
- to{opacity:1;transform:scale(1)}
-}
-
-#introBtn{
- padding:14px 30px;
- border:none;
- border-radius:14px;
- background:#6f8cff;
- color:white;
- font-size:1rem;
- cursor:pointer;
-}
-
-/* ================= MAIN WEB ================= */
-
-/* VIDEO */
+/* ========== VIDEO BG ========== */
 video.bg{
- position:fixed;inset:0;width:100%;height:100%;
- object-fit:cover;z-index:-2;
+ position:fixed;inset:0;
+ width:100%;height:100%;
+ object-fit:cover;
+ z-index:-2;
  filter:brightness(.85);
 }
 
-/* OVERLAY */
+/* ========== OVERLAY ========== */
 .overlay{
  position:fixed;inset:0;
  background:rgba(0,0,0,.55);
@@ -81,7 +30,7 @@ video.bg{
  transition:1s;
 }
 
-/* CENTER */
+/* ========== CENTER CARD ========== */
 .wrapper{
  height:100vh;
  display:flex;
@@ -90,7 +39,6 @@ video.bg{
  padding:16px;
 }
 
-/* CARD */
 .card{
  width:100%;
  max-width:360px;
@@ -108,7 +56,7 @@ video.bg{
  to{opacity:1;transform:scale(1)}
 }
 
-/* ASTRONAUT */
+/* ========== ASTRONAUT ========== */
 .astronaut{
  width:130px;
  margin:0 auto 14px;
@@ -120,7 +68,7 @@ video.bg{
  50%{transform:translateY(-12px)}
 }
 
-/* TEXT */
+/* ========== TEXT ========== */
 #text{
  font-size:1.02rem;
  line-height:1.85;
@@ -129,15 +77,20 @@ video.bg{
  white-space:pre-line;
 }
 
-/* DOTS */
-#dots{display:flex;justify-content:center;gap:6px;margin-bottom:18px}
+/* ========== DOTS ========== */
+#dots{
+ display:flex;
+ justify-content:center;
+ gap:6px;
+ margin-bottom:18px;
+}
 #dots span{
  width:7px;height:7px;border-radius:50%;
  background:rgba(255,255,255,.35)
 }
 #dots span.active{background:white}
 
-/* BUTTON */
+/* ========== BUTTONS ========== */
 button{
  padding:13px 30px;
  border-radius:999px;
@@ -154,11 +107,12 @@ button:hover{transform:scale(1.05)}
 .options{display:none;gap:12px;justify-content:center}
 .options button{flex:1}
 
-/* PHOTO SLIDE */
+/* ========== PHOTO SLIDE (OUTSIDE CARD) ========== */
 .photo-wrap{
- position:relative;
- width:100%;
- height:260px;
+ position:fixed;
+ inset:0;
+ z-index:5;
+ pointer-events:none;
  display:none;
 }
 
@@ -195,20 +149,13 @@ button:hover{transform:scale(1.05)}
  background:linear-gradient(to top,rgba(0,0,0,.75),transparent);
 }
 
-/* HINT */
+/* ========== HINT ========== */
 .hint{font-size:.7rem;opacity:.6;margin-top:10px}
 </style>
 </head>
 
 <body>
 
-<!-- ================= POPUP INTRO ================= -->
-<div id="intro">
- <div class="intro-bubble" id="introText"></div>
- <button id="introBtn">Klik Disini</button>
-</div>
-
-<!-- ================= MAIN CONTENT ================= -->
 <video id="bgVideo" class="bg" autoplay muted loop></video>
 <div class="overlay"></div>
 
@@ -216,18 +163,19 @@ button:hover{transform:scale(1.05)}
  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<div class="photo-wrap" id="photoWrap"></div>
+
 <div class="wrapper">
  <div class="card" id="card">
   <img id="astro" class="astronaut">
   <div id="text"></div>
-  <div id="photoWrap" class="photo-wrap"></div>
   <div id="dots"></div>
 
   <button id="nextBtn">Lanjut</button>
 
   <div class="options" id="options">
    <button onclick="answer()">Aku juga 🤍</button>
-   <button id="btnTidak">Ragu?…</button>
+   <button id="btnTidak">Aku masih mikir…</button>
   </div>
 
   <div class="hint">Swipe kiri / kanan ✨</div>
@@ -235,69 +183,31 @@ button:hover{transform:scale(1.05)}
 </div>
 
 <script>
-/* ================= INTRO POPUP ================= */
-const introTexts=[
- "Ayangg Upa 🤍",
- "Aku bikin ini pelan-pelan…",
- "Cuma buat upa.",
- "Klik lagi ya…"
-];
-
-let introIndex=0;
-const intro=document.getElementById("intro");
-const introText=document.getElementById("introText");
-const introBtn=document.getElementById("introBtn");
-
-function typeIntro(text){
- introText.textContent="";
- let i=0;
- const t=setInterval(()=>{
-  introText.textContent+=text[i++]||"";
-  if(i>text.length)clearInterval(t);
- },55);
-}
-
-if(!localStorage.getItem("introSeen")){
- typeIntro(introTexts[0]);
-}else{
- intro.style.display="none";
- startMain();
-}
-
-introBtn.onclick=()=>{
- introIndex++;
- if(introIndex<introTexts.length){
-  typeIntro(introTexts[introIndex]);
- }else{
-  localStorage.setItem("introSeen","1");
-  intro.style.display="none";
-  startMain();
- }
-};
-
-/* ================= MAIN SCRIPT ================= */
+/* ========== CONFIG ========== */
 const NOMOR_IKY="62895387764779";
 
+/* ========== SLIDES ========== */
 const slides=[
  {video:"slide1.mp4",astro:"astro1.png",
   text:"Di semesta yang luas ini…\n\nAda satu hal kecil\nyang pelan-pelan bikin Iky berhenti."},
  {video:"slide2.mp4",astro:"astro2.png",
-  text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena upa."},
+  text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena kamu."},
  {video:"slide3.mp4",astro:"astro3.png",
-  text:"Bukan karena upa sempurna.\n\nTapi karena bersama upa,\nIky ngerasa pulang."},
+  text:"Bukan karena kamu sempurna.\n\nTapi karena bersama kamu,\nIky ngerasa pulang."},
  {video:"slide4.mp4",astro:"astro4.png",
-  text:"Aku takut kehilangan upa.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
+  text:"Aku takut kehilangan kamu.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
  {video:"slide1.mp4",astro:"astro5.png",
-  text:"Kalau Iky boleh minta satu hal…\n\nTinggallah bersama.\nDi semesta kecil bernama kita yaitu upa dan iky 🤍"},
+  text:"Kalau Iky boleh minta satu hal…\n\nTinggallah.\nDi semesta kecil bernama kita 🤍"},
  {video:"slide2.mp4",photoSlide:true,
   photos:[
    {src:"photo1.jpeg",cap:"Senyum yang selalu bikin aku tenang 🤍"},
-   {src:"photo2.jpeg",cap:"Tanpa sadar, upa rumah."},
+   {src:"photo2.jpeg",cap:"Tanpa sadar, kamu rumah."},
    {src:"photo3.jpeg",cap:"Aku jatuh… pelan-pelan, tapi dalam."}
  ]}
 ];
 
-let index=0,typing=null;
+let index=0,typing=null,kaburCount=0;
+
 const textEl=document.getElementById("text");
 const astro=document.getElementById("astro");
 const video=document.getElementById("bgVideo");
@@ -305,11 +215,17 @@ const nextBtn=document.getElementById("nextBtn");
 const photoWrap=document.getElementById("photoWrap");
 const dots=document.getElementById("dots");
 const music=document.getElementById("music");
+const btnTidak=document.getElementById("btnTidak");
 
-document.addEventListener("click",()=>{music.volume=.25;music.play()},{once:true});
+/* ========== MUSIC ========== */
+document.addEventListener("click",()=>{
+ if(music.paused){music.volume=.25;music.play();}
+},{once:true});
 
+/* ========== TYPE ========== */
 function typeText(t,s=45){
- clearInterval(typing);textEl.textContent="";
+ clearInterval(typing);
+ textEl.textContent="";
  let i=0;
  typing=setInterval(()=>{
   textEl.textContent+=t[i++]||"";
@@ -317,41 +233,66 @@ function typeText(t,s=45){
  },s);
 }
 
+/* ========== DOTS ========== */
 function renderDots(){
  dots.innerHTML="";
  slides.forEach((_,i)=>{
-  let d=document.createElement("span");
+  const d=document.createElement("span");
   if(i===index)d.classList.add("active");
   dots.appendChild(d);
  });
 }
 
+/* ========== PHOTO SLIDE POSISI FIX ========== */
 function showPhotoSlide(s){
  astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="none";
  photoWrap.style.display="block";
+ photoWrap.innerHTML="";
+
+ const positions=[
+  {top:"22%",left:"6%"},                    // kiri
+  {top:"22%",right:"6%"},                   // kanan
+  {bottom:"12%",left:"50%",transform:"translateX(-50%)"} // bawah
+ ];
+
  s.photos.forEach((p,i)=>{
-  let d=document.createElement("div");
+  const d=document.createElement("div");
   d.className="photo";
   d.innerHTML=`<img src="${p.src}"><span>${p.cap}</span>`;
-  d.style.top=Math.random()*120+"px";
-  d.style.left=Math.random()*180+"px";
+  Object.assign(d.style,positions[i]);
   photoWrap.appendChild(d);
   setTimeout(()=>d.classList.add("show"),1200*i);
  });
- setTimeout(answer,7500);
+
+ setTimeout(answer,8500);
 }
 
+/* ========== LOAD SLIDE ========== */
 function loadSlide(){
- let s=slides[index];
+ const s=slides[index];
  video.src=s.video;
  renderDots();
+
  if(s.photoSlide){showPhotoSlide(s);return;}
+
+ astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="block";
  astro.src=s.astro;
  typeText(s.text,index>=3?65:45);
 }
 
+/* ========== NEXT ========== */
 nextBtn.onclick=()=>{index++;if(index<slides.length)loadSlide()};
 
+/* ========== RUNAWAY ========== */
+btnTidak.onmouseenter=btnTidak.ontouchstart=e=>{
+ e.preventDefault();
+ kaburCount++;
+ btnTidak.style.left=(Math.random()*120-60)+"px";
+ btnTidak.style.top=(Math.random()*120-60)+"px";
+ if(kaburCount>=3)answer();
+};
+
+/* ========== ANSWER ========== */
 function answer(){
  typeText("Makasih ya, Upa 🤍\nKarena sudah memilih Iky.",60);
  setTimeout(()=>{
@@ -359,7 +300,16 @@ function answer(){
  },4200);
 }
 
-function startMain(){setTimeout(loadSlide,600);}
+/* ========== SWIPE ========== */
+let startX=0;
+document.getElementById("card").ontouchstart=e=>startX=e.touches[0].clientX;
+document.getElementById("card").ontouchend=e=>{
+ let d=e.changedTouches[0].clientX-startX;
+ if(Math.abs(d)>70){index++;if(index<slides.length)loadSlide();}
+};
+
+/* ========== INIT ========== */
+setTimeout(loadSlide,600);
 </script>
 
 </body>
