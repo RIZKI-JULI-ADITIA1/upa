@@ -8,217 +8,132 @@
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- height:100vh;
- overflow:hidden;
+ margin:0;height:100vh;overflow:hidden;
  font-family:'Segoe UI',system-ui,sans-serif;
- background:black;
- color:white;
+ background:black;color:white;
 }
 
-/* ================= INTRO ================= */
+/* INTRO */
 #intro{
- position:fixed;
- inset:0;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
+ position:fixed;inset:0;
+ display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
  z-index:9999;
 }
 #intro video{
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- z-index:-2;
+ position:absolute;inset:0;
+ width:100%;height:100%;
+ object-fit:cover;z-index:-2;
 }
 #intro::after{
- content:"";
- position:absolute;
- inset:0;
- background:rgba(0,0,0,.45);
- z-index:-1;
+ content:"";position:absolute;inset:0;
+ background:rgba(0,0,0,.45);z-index:-1;
 }
-.intro-astro{
- width:140px;
- margin-bottom:16px;
- animation:float 6s ease-in-out infinite;
-}
+.intro-astro{width:140px;margin-bottom:16px;animation:float 6s ease-in-out infinite}
 .intro-bubble{
- background:white;
- color:#333;
- padding:16px 20px;
- border-radius:18px;
- max-width:260px;
- font-size:.95rem;
- line-height:1.6;
- margin-bottom:16px;
- position:relative;
+ background:white;color:#333;
+ padding:16px 20px;border-radius:18px;
+ max-width:260px;font-size:.95rem;
+ margin-bottom:16px;position:relative;
 }
 .intro-bubble::after{
- content:"";
- position:absolute;
- bottom:-10px;
- left:50%;
+ content:"";position:absolute;bottom:-10px;left:50%;
  transform:translateX(-50%);
  border-width:10px 10px 0;
- border-style:solid;
- border-color:white transparent transparent;
+ border-style:solid;border-color:white transparent transparent;
 }
 #introBtn{
- padding:14px 30px;
- border:none;
- border-radius:999px;
- background:#6f8cff;
- color:white;
- font-size:1rem;
- cursor:pointer;
+ padding:14px 30px;border:none;border-radius:999px;
+ background:#6f8cff;color:white;font-size:1rem;
 }
 
-/* ================= BACKGROUND ================= */
+/* BACKGROUND */
 video.bg{
- position:fixed;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- z-index:-2;
+ position:fixed;inset:0;
+ width:100%;height:100%;
+ object-fit:cover;z-index:-2;
 }
 .overlay{
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.45);
- z-index:-1;
+ position:fixed;inset:0;
+ background:rgba(0,0,0,.45);z-index:-1;
 }
 
-/* ================= SCENE ================= */
+/* SCENE */
 .scene{
- height:100vh;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- text-align:center;
- padding:20px;
+ height:100vh;display:flex;
+ flex-direction:column;justify-content:center;
+ align-items:center;text-align:center;
 }
 
- /* ================= WHATSSAP ================= */
- <button id="waBtn" style="display:none">Kirim ke Iky 🤍</button>
-#waBtn{
- position:fixed;
- bottom:40px;
- left:50%;
- transform:translateX(-50%);
- padding:14px 36px;
- border-radius:999px;
- border:none;
- background:#6f8cff;
- color:white;
- font-size:1rem;
- font-weight:600;
- z-index:10;
-}
-const waBtn=document.getElementById("waBtn");
-
-waBtn.onclick=()=>{
- window.location.href =
-  "https://wa.me/62895387764779?text=" +
-  encodeURIComponent("Aku sudah lihat semuanya 🤍\nTerima kasih ya…");
-};
-
-/* ================= ASTRONAUT ================= */
+/* ASTRONAUT */
 .astronaut{
- width:160px;
- animation:float 6s ease-in-out infinite;
+ width:160px;animation:float 6s ease-in-out infinite;
 }
 @keyframes float{
  0%,100%{transform:translateY(0)}
  50%{transform:translateY(-18px)}
 }
-
-/* ===== ZOOM EXIT ===== */
 .astronaut.zoom-exit{
  animation:astroZoom .6s ease forwards;
 }
 @keyframes astroZoom{
  from{transform:scale(1);opacity:1}
- to{transform:scale(2.6);opacity:0}
+ to{transform:scale(2.5);opacity:0}
 }
 
-/* ================= BUBBLE ================= */
+/* BUBBLE */
 .bubble{
- background:white;
- color:#333;
- padding:16px 20px;
- border-radius:18px;
- max-width:280px;
- font-size:1rem;
- line-height:1.6;
- margin-bottom:14px;
+ background:white;color:#333;
+ padding:16px 20px;border-radius:18px;
+ max-width:280px;margin-bottom:14px;
  position:relative;
- animation:fadeUp .5s ease;
 }
 .bubble::after{
- content:"";
- position:absolute;
- bottom:-10px;
- left:50%;
+ content:"";position:absolute;bottom:-10px;left:50%;
  transform:translateX(-50%);
  border-width:10px 10px 0;
- border-style:solid;
- border-color:white transparent transparent;
-}
-@keyframes fadeUp{
- from{opacity:0;transform:translateY(12px)}
- to{opacity:1;transform:translateY(0)}
+ border-style:solid;border-color:white transparent transparent;
 }
 
-/* ================= BUTTON ================= */
+/* BUTTON */
 button{
- margin-top:20px;
- padding:14px 36px;
- border-radius:999px;
- border:none;
- background:#6f8cff;
- color:white;
- font-size:1rem;
- font-weight:600;
- cursor:pointer;
+ padding:14px 36px;border-radius:999px;
+ border:none;background:#6f8cff;
+ color:white;font-size:1rem;
 }
 
-/* ================= PHOTO SLIDE ================= */
+/* PHOTO SLIDE */
 .photo-wrap{
- position:fixed;
- inset:0;
- z-index:5;
- display:none;
- pointer-events:none;
+ position:fixed;inset:0;
+ display:none;z-index:5;
 }
 .photo{
- position:absolute;
- width:130px;
- border-radius:16px;
- overflow:hidden;
+ position:absolute;width:130px;
+ border-radius:16px;overflow:hidden;
  box-shadow:0 18px 40px rgba(0,0,0,.6);
- opacity:0;
+ opacity:0;filter:blur(6px);
  transform:scale(.9) rotate(-2deg);
- filter:blur(6px);
  transition:1.5s;
 }
 .photo.show{
- opacity:1;
+ opacity:1;filter:blur(0);
  transform:scale(1) rotate(0);
- filter:blur(0);
 }
-.photo img{width:100%;display:block}
+.photo img{width:100%}
 .photo span{
- position:absolute;
- bottom:0;left:0;right:0;
- padding:8px;
- font-size:.7rem;
+ position:absolute;bottom:0;left:0;right:0;
+ padding:8px;font-size:.7rem;
  background:linear-gradient(to top,rgba(0,0,0,.75),transparent);
+}
+
+/* WA BUTTON */
+#waBtn{
+ display:none;position:fixed;
+ bottom:40px;left:50%;
+ transform:translateX(-50%);
+ padding:14px 36px;border-radius:999px;
+ background:#25D366;color:white;
+ z-index:10;
 }
 </style>
 </head>
@@ -249,8 +164,12 @@ button{
  <button id="nextBtn">Lanjut</button>
 </div>
 
+<button id="waBtn">Kirim ke Iky 🤍</button>
+
 <script>
-/* ===== INTRO ===== */
+const waBtn=document.getElementById("waBtn");
+
+/* INTRO */
 const introTexts=[
  "Ayang Upa 🤍",
  "Aku bikin ini pelan-pelan…",
@@ -258,8 +177,6 @@ const introTexts=[
  "Klik sekali lagi ya…"
 ];
 let introI=0;
-const intro=document.getElementById("intro");
-const introText=document.getElementById("introText");
 introText.textContent=introTexts[0];
 introBtn.onclick=()=>{
  introI++;
@@ -267,62 +184,52 @@ introBtn.onclick=()=>{
   introText.textContent=introTexts[introI];
  }else{
   intro.style.display="none";
-  start();
+  load();
  }
 };
 
-/* ===== DATA SLIDE ===== */
+/* SLIDES */
 const slides=[
- {video:"slide1.mp4",astro:"astro1.png",text:"Hai… 🤍\nAku cuma mau bilang satu hal."},
- {video:"slide2.mp4",astro:"astro2.png",text:"Di semesta yang luas ini…\naku nemuin upa."},
- {video:"slide3.mp4",astro:"astro3.png",text:"Bukan karena upa sempurna,\ntapi karena upa bikin aku pulang."},
+ {video:"slide1.mp4",astro:"astro1.png",text:"Hai… 🤍"},
+ {video:"slide2.mp4",astro:"astro2.png",text:"Aku nemuin upa."},
+ {video:"slide3.mp4",astro:"astro3.png",text:"Upa bikin aku pulang."},
  {video:"slide4.mp4",astro:"astro4.png",text:"Aku takut kehilangan upa…"},
- {video:"slide1.mp4",astro:"astro5.png",text:"Karena aku sayang sedalam ini 🤍"},
+ {video:"slide1.mp4",astro:"astro5.png",text:"Karena aku sayang 🤍"},
  {photo:true}
 ];
 
 let i=0;
-const bubble=document.getElementById("bubble");
-const astro=document.getElementById("astro");
-const bg=document.getElementById("bgVideo");
-const photoWrap=document.getElementById("photoWrap");
-const music=document.getElementById("music");
-
-document.addEventListener("click",()=>{
- if(music.paused){music.volume=.25;music.play();}
-},{once:true});
-
 function load(){
  const s=slides[i];
  if(s.photo){
   document.querySelector(".scene").style.display="none";
   photoWrap.style.display="block";
+
+  const photos=[
+   {src:"photo1.jpeg",cap:"Senyummu bikin aku tenang 🤍"},
+   {src:"photo2.jpeg",cap:"Upa adalah rumah"},
+   {src:"photo3.jpeg",cap:"Aku jatuh… dalam"}
+  ];
   const pos=[
    {top:"22%",left:"6%"},
    {top:"22%",right:"6%"},
    {bottom:"12%",left:"50%",transform:"translateX(-50%)"}
   ];
- const photoData=[
- {src:"photo1.jpeg", cap:"Senyummu selalu bikin aku tenang 🤍"},
- {src:"photo2.jpeg", cap:"Tanpa sadar, upa menjadi rumah ternyaman bagi iky"},
- {src:"photo3.jpeg", cap:"Aku jatuh… pelan-pelan kedalam pelukannya upa"}
-];
 
-photoData.forEach((p,j)=>{
- const d=document.createElement("div");
- d.className="photo";
- d.innerHTML=`
-  <img src="${p.src}">
-  <span>${p.cap}</span>
- `;
- Object.assign(d.style,pos[j]);
- photoWrap.appendChild(d);
- setTimeout(()=>d.classList.add("show"),1200*j);
-});
-setTimeout(()=>{waBtn.style.display="block"},5000);
+  photos.forEach((p,j)=>{
+   const d=document.createElement("div");
+   d.className="photo";
+   d.innerHTML=`<img src="${p.src}"><span>${p.cap}</span>`;
+   Object.assign(d.style,pos[j]);
+   photoWrap.appendChild(d);
+   setTimeout(()=>d.classList.add("show"),1200*j);
+  });
+
+  setTimeout(()=>waBtn.style.display="block",5000);
   return;
  }
- bg.src=s.video;
+
+ bgVideo.src=s.video;
  astro.src=s.astro;
  bubble.textContent=s.text;
 }
@@ -331,12 +238,15 @@ nextBtn.onclick=()=>{
  astro.classList.add("zoom-exit");
  setTimeout(()=>{
   astro.classList.remove("zoom-exit");
-  i++;
-  load();
+  i++;load();
  },600);
 };
 
-function start(){load();}
+waBtn.onclick=()=>{
+ window.location.href=
+  "https://wa.me/62895387764779?text="+
+  encodeURIComponent("Aku sudah lihat semuanya 🤍");
+};
 </script>
 
 </body>
