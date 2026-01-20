@@ -9,307 +9,357 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  height:100vh;
-  overflow:hidden;
-  font-family:'Segoe UI',system-ui,sans-serif;
-  background:black;
-  color:white;
+ margin:0;height:100vh;overflow:hidden;
+ font-family:'Segoe UI',system-ui,sans-serif;
+ background:black;color:white;
 }
+
+/* ================= POPUP INTRO ================= */
+#intro{
+ position:fixed;
+ inset:0;
+ background:linear-gradient(180deg,#7b9dff,#b7c7ff);
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ flex-direction:column;
+ z-index:9999;
+}
+
+.intro-bubble{
+ background:white;
+ color:#333;
+ padding:16px 20px;
+ border-radius:18px;
+ max-width:260px;
+ font-size:.95rem;
+ line-height:1.6;
+ position:relative;
+ margin-bottom:20px;
+ animation:pop .4s ease;
+}
+
+.intro-bubble::after{
+ content:"";
+ position:absolute;
+ bottom:-10px;
+ left:30px;
+ border-width:10px 10px 0;
+ border-style:solid;
+ border-color:white transparent transparent;
+}
+
+@keyframes pop{
+ from{opacity:0;transform:scale(.85)}
+ to{opacity:1;transform:scale(1)}
+}
+
+#introBtn{
+ padding:14px 30px;
+ border:none;
+ border-radius:14px;
+ background:#6f8cff;
+ color:white;
+ font-size:1rem;
+ cursor:pointer;
+}
+
+/* ================= MAIN WEB ================= */
 
 /* VIDEO */
 video.bg{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-2;
-  filter:brightness(.9);
+ position:fixed;inset:0;width:100%;height:100%;
+ object-fit:cover;z-index:-2;
+ filter:brightness(.85);
 }
 
 /* OVERLAY */
 .overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:-1;
-  transition:background 1s ease;
+ position:fixed;inset:0;
+ background:rgba(0,0,0,.55);
+ z-index:-1;
+ transition:1s;
 }
 
 /* CENTER */
 .wrapper{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:16px;
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:16px;
 }
 
 /* CARD */
 .card{
-  width:100%;
-  max-width:360px;
-  padding:26px 24px;
-  border-radius:26px;
-  background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04));
-  backdrop-filter:blur(20px);
-  box-shadow:0 30px 80px rgba(0,0,0,.75);
-  text-align:center;
-  animation:fade .8s ease;
+ width:100%;
+ max-width:360px;
+ padding:26px 24px;
+ border-radius:26px;
+ background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04));
+ backdrop-filter:blur(20px);
+ box-shadow:0 30px 80px rgba(0,0,0,.75);
+ text-align:center;
+ animation:fade .8s ease;
 }
 
 @keyframes fade{
-  from{opacity:0;transform:scale(.92)}
-  to{opacity:1;transform:scale(1)}
+ from{opacity:0;transform:scale(.92)}
+ to{opacity:1;transform:scale(1)}
 }
 
 /* ASTRONAUT */
 .astronaut{
-  width:135px;
-  margin:0 auto 16px;
-  display:block;
-  animation:float 6s ease-in-out infinite;
+ width:130px;
+ margin:0 auto 14px;
+ animation:float 6s ease-in-out infinite;
 }
 
 @keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-12px)}
 }
 
 /* TEXT */
 #text{
-  font-size:1.02rem;
-  line-height:1.85;
-  min-height:130px;
-  margin-bottom:18px;
-  white-space:pre-line;
+ font-size:1.02rem;
+ line-height:1.85;
+ min-height:130px;
+ margin-bottom:18px;
+ white-space:pre-line;
 }
 
 /* DOTS */
-#dots{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  margin-bottom:18px;
-}
+#dots{display:flex;justify-content:center;gap:6px;margin-bottom:18px}
 #dots span{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:rgba(255,255,255,.35);
+ width:7px;height:7px;border-radius:50%;
+ background:rgba(255,255,255,.35)
 }
-#dots span.active{
-  background:white;
-}
+#dots span.active{background:white}
 
 /* BUTTON */
 button{
-  padding:13px 30px;
-  border-radius:999px;
-  border:none;
-  background:white;
-  color:#1c2554;
-  font-size:.95rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s ease;
+ padding:13px 30px;
+ border-radius:999px;
+ border:none;
+ background:white;
+ color:#1c2554;
+ font-size:.95rem;
+ font-weight:600;
+ cursor:pointer;
+ transition:.25s;
 }
 button:hover{transform:scale(1.05)}
 
-.options{
-  display:none;
-  gap:12px;
-  justify-content:center;
-  position:relative;
-}
+.options{display:none;gap:12px;justify-content:center}
 .options button{flex:1}
 
-/* RUNAWAY */
-.runaway{
-  position:relative;
-  transition:top .25s ease,left .25s ease;
+/* PHOTO SLIDE */
+.photo-wrap{
+ position:relative;
+ width:100%;
+ height:260px;
+ display:none;
+}
+
+.photo{
+ position:absolute;
+ width:130px;
+ border-radius:16px;
+ overflow:hidden;
+ box-shadow:0 18px 40px rgba(0,0,0,.6);
+ opacity:0;
+ transform:scale(.9) rotate(-2deg);
+ filter:blur(6px);
+ transition:all 1.5s ease;
+ animation:polaroid 6s ease-in-out infinite;
+}
+
+@keyframes polaroid{
+ 0%,100%{transform:rotate(-2deg)}
+ 50%{transform:rotate(2deg)}
+}
+
+.photo.show{
+ opacity:1;
+ transform:scale(1) rotate(0deg);
+ filter:blur(0);
+}
+
+.photo img{width:100%;display:block}
+.photo span{
+ position:absolute;
+ bottom:0;left:0;right:0;
+ padding:8px;
+ font-size:.7rem;
+ background:linear-gradient(to top,rgba(0,0,0,.75),transparent);
 }
 
 /* HINT */
-.hint{
-  margin-top:12px;
-  font-size:.7rem;
-  opacity:.6;
-}
-
-/* SMALL SCREEN */
-@media (max-height:680px){
-  .astronaut{width:115px}
-  #text{font-size:.95rem;min-height:110px}
-}
+.hint{font-size:.7rem;opacity:.6;margin-top:10px}
 </style>
 </head>
 
 <body>
 
-<video id="bgVideo" class="bg" autoplay muted loop playsinline></video>
-<div class="overlay" id="overlay"></div>
+<!-- ================= POPUP INTRO ================= -->
+<div id="intro">
+ <div class="intro-bubble" id="introText"></div>
+ <button id="introBtn">Klik Disini</button>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<video id="bgVideo" class="bg" autoplay muted loop></video>
+<div class="overlay"></div>
 
 <audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+ <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="wrapper">
-  <div class="card" id="card">
-    <img id="astro" class="astronaut" src="">
-    <div id="text"></div>
+ <div class="card" id="card">
+  <img id="astro" class="astronaut">
+  <div id="text"></div>
+  <div id="photoWrap" class="photo-wrap"></div>
+  <div id="dots"></div>
 
-    <div id="dots"></div>
+  <button id="nextBtn">Lanjut</button>
 
-    <button id="nextBtn">Lanjut</button>
-
-    <div class="options" id="options">
-      <button onclick="answer(true)">Aku juga 🤍</button>
-      <button id="btnTidak">Aku masih mikir…</button>
-    </div>
-
-    <div class="hint">Swipe kiri / kanan di kartu ✨</div>
+  <div class="options" id="options">
+   <button onclick="answer()">Aku juga 🤍</button>
+   <button id="btnTidak">Ragu?…</button>
   </div>
+
+  <div class="hint">Swipe kiri / kanan ✨</div>
+ </div>
 </div>
 
 <script>
-/* ================= CONFIG ================= */
-const NOMOR_IKY = "62895387764779"; // pakai format internasional
-/* ========================================= */
+/* ================= INTRO POPUP ================= */
+const introTexts=[
+ "Ayangg Upa 🤍",
+ "Aku bikin ini pelan-pelan…",
+ "Cuma buat upa.",
+ "Klik lagi ya…"
+];
+
+let introIndex=0;
+const intro=document.getElementById("intro");
+const introText=document.getElementById("introText");
+const introBtn=document.getElementById("introBtn");
+
+function typeIntro(text){
+ introText.textContent="";
+ let i=0;
+ const t=setInterval(()=>{
+  introText.textContent+=text[i++]||"";
+  if(i>text.length)clearInterval(t);
+ },55);
+}
+
+if(!localStorage.getItem("introSeen")){
+ typeIntro(introTexts[0]);
+}else{
+ intro.style.display="none";
+ startMain();
+}
+
+introBtn.onclick=()=>{
+ introIndex++;
+ if(introIndex<introTexts.length){
+  typeIntro(introTexts[introIndex]);
+ }else{
+  localStorage.setItem("introSeen","1");
+  intro.style.display="none";
+  startMain();
+ }
+};
+
+/* ================= MAIN SCRIPT ================= */
+const NOMOR_IKY="62895387764779";
 
 const slides=[
  {video:"slide1.mp4",astro:"astro1.png",
   text:"Di semesta yang luas ini…\n\nAda satu hal kecil\nyang pelan-pelan bikin Iky berhenti."},
-
  {video:"slide2.mp4",astro:"astro2.png",
-  text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena kamu."},
-
+  text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena upa."},
  {video:"slide3.mp4",astro:"astro3.png",
-  text:"Bukan karena kamu sempurna.\n\nTapi karena bersama kamu,\nIky ngerasa pulang."},
-
+  text:"Bukan karena upa sempurna.\n\nTapi karena bersama upa,\nIky ngerasa pulang."},
  {video:"slide4.mp4",astro:"astro4.png",
-  text:"Aku takut kehilangan kamu.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
-
+  text:"Aku takut kehilangan upa.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
  {video:"slide1.mp4",astro:"astro5.png",
-  text:"Kalau Iky boleh minta satu hal…\n\nTinggallah.\nDi semesta kecil bernama kita 🤍",
-  end:true}
+  text:"Kalau Iky boleh minta satu hal…\n\nTinggallah bersama.\nDi semesta kecil bernama kita yaitu upa dan iky 🤍"},
+ {video:"slide2.mp4",photoSlide:true,
+  photos:[
+   {src:"photo1.jpg",cap:"Senyum yang selalu bikin aku tenang 🤍"},
+   {src:"photo2.jpg",cap:"Tanpa sadar, upa rumah."},
+   {src:"photo3.jpg",cap:"Aku jatuh… pelan-pelan, tapi dalam."}
+ ]}
 ];
 
-let index=0, typing=null, kaburCount=0;
-
+let index=0,typing=null;
 const textEl=document.getElementById("text");
-const videoEl=document.getElementById("bgVideo");
-const astroEl=document.getElementById("astro");
+const astro=document.getElementById("astro");
+const video=document.getElementById("bgVideo");
 const nextBtn=document.getElementById("nextBtn");
-const options=document.getElementById("options");
-const btnTidak=document.getElementById("btnTidak");
+const photoWrap=document.getElementById("photoWrap");
+const dots=document.getElementById("dots");
 const music=document.getElementById("music");
-const overlay=document.getElementById("overlay");
-const card=document.getElementById("card");
-const dotsEl=document.getElementById("dots");
 
-/* MUSIC */
-document.addEventListener("click",()=>{
- if(music.paused){
-  music.volume=0.25;
-  music.play();
- }
-},{once:true});
+document.addEventListener("click",()=>{music.volume=.25;music.play()},{once:true});
 
-/* TYPE */
-function typeText(t,speed=45){
- clearInterval(typing);
- textEl.textContent="";
+function typeText(t,s=45){
+ clearInterval(typing);textEl.textContent="";
  let i=0;
  typing=setInterval(()=>{
-  textEl.textContent+=t.charAt(i++);
-  if(i>=t.length) clearInterval(typing);
- },speed);
+  textEl.textContent+=t[i++]||"";
+  if(i>t.length)clearInterval(typing);
+ },s);
 }
 
-/* DOTS */
 function renderDots(){
- dotsEl.innerHTML="";
+ dots.innerHTML="";
  slides.forEach((_,i)=>{
-  const s=document.createElement("span");
-  if(i===index) s.classList.add("active");
-  dotsEl.appendChild(s);
+  let d=document.createElement("span");
+  if(i===index)d.classList.add("active");
+  dots.appendChild(d);
  });
 }
 
-/* LOAD */
-function loadSlide(){
- typeText(slides[index].text,index>=3?65:45);
- videoEl.src=slides[index].video;
- astroEl.src=slides[index].astro;
- renderDots();
-
- if(index>=3){
-  overlay.style.background="rgba(0,0,0,.7)";
-  card.style.transform="scale(.97)";
- }else{
-  overlay.style.background="rgba(0,0,0,.55)";
-  card.style.transform="scale(1)";
- }
-
- if(slides[index].end){
-  nextBtn.style.display="none";
-  options.style.display="flex";
-  btnTidak.classList.add("runaway");
- }
+function showPhotoSlide(s){
+ astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="none";
+ photoWrap.style.display="block";
+ s.photos.forEach((p,i)=>{
+  let d=document.createElement("div");
+  d.className="photo";
+  d.innerHTML=`<img src="${p.src}"><span>${p.cap}</span>`;
+  d.style.top=Math.random()*120+"px";
+  d.style.left=Math.random()*180+"px";
+  photoWrap.appendChild(d);
+  setTimeout(()=>d.classList.add("show"),1200*i);
+ });
+ setTimeout(answer,7500);
 }
 
-/* NEXT */
-nextBtn.onclick=()=>{
- index++;
- if(index<slides.length) loadSlide();
-};
+function loadSlide(){
+ let s=slides[index];
+ video.src=s.video;
+ renderDots();
+ if(s.photoSlide){showPhotoSlide(s);return;}
+ astro.src=s.astro;
+ typeText(s.text,index>=3?65:45);
+}
 
-/* ANSWER */
+nextBtn.onclick=()=>{index++;if(index<slides.length)loadSlide()};
+
 function answer(){
  typeText("Makasih ya, Upa 🤍\nKarena sudah memilih Iky.",60);
  setTimeout(()=>{
-  window.location.href=
-   "https://wa.me/"+NOMOR_IKY+
-   "?text="+encodeURIComponent(
-    "Iky… aku juga 🤍\nAku nangis bacanya.\nTerima kasih ya."
-   );
+  location.href="https://wa.me/"+NOMOR_IKY;
  },4200);
 }
 
-/* RUNAWAY */
-btnTidak.addEventListener("mouseenter",kabur);
-btnTidak.addEventListener("touchstart",kabur);
-
-function kabur(e){
- e.preventDefault();
- kaburCount++;
- btnTidak.style.left=(Math.random()*120-60)+"px";
- btnTidak.style.top=(Math.random()*120-60)+"px";
- if(kaburCount>=3){
-  btnTidak.style.display="none";
-  setTimeout(answer,1600);
- }
-}
-
-/* SWIPE */
-let startX=0;
-card.addEventListener("touchstart",e=>{
- startX=e.touches[0].clientX;
-});
-card.addEventListener("touchend",e=>{
- const diff=e.changedTouches[0].clientX-startX;
- if(Math.abs(diff)>70 && nextBtn.style.display!=="none"){
-  index++;
-  if(index<slides.length) loadSlide();
- }
-});
-
-/* INIT */
-setTimeout(()=>{
- loadSlide();
-},600);
+function startMain(){setTimeout(loadSlide,600);}
 </script>
 
 </body>
