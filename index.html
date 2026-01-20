@@ -104,6 +104,30 @@ video.bg{
  padding:20px;
 }
 
+ /* ================= WHATSSAP ================= */
+ <button id="waBtn" style="display:none">Kirim ke Iky 🤍</button>
+#waBtn{
+ position:fixed;
+ bottom:40px;
+ left:50%;
+ transform:translateX(-50%);
+ padding:14px 36px;
+ border-radius:999px;
+ border:none;
+ background:#6f8cff;
+ color:white;
+ font-size:1rem;
+ font-weight:600;
+ z-index:10;
+}
+const waBtn=document.getElementById("waBtn");
+
+waBtn.onclick=()=>{
+ window.location.href =
+  "https://wa.me/62895387764779?text=" +
+  encodeURIComponent("Aku sudah lihat semuanya 🤍\nTerima kasih ya…");
+};
+
 /* ================= ASTRONAUT ================= */
 .astronaut{
  width:160px;
@@ -295,7 +319,7 @@ photoData.forEach((p,j)=>{
  photoWrap.appendChild(d);
  setTimeout(()=>d.classList.add("show"),1200*j);
 });
-
+setTimeout(()=>{waBtn.style.display="block"},5000);
   return;
  }
  bg.src=s.video;
