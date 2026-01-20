@@ -25,7 +25,7 @@ video.bg{
   height:100%;
   object-fit:cover;
   z-index:-2;
-  transition:opacity 1.5s ease,transform .5s ease,filter 1s ease;
+  filter:brightness(.9);
 }
 
 /* OVERLAY */
@@ -43,67 +43,78 @@ video.bg{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:18px;
+  padding:16px;
 }
 
 /* CARD */
 .card{
   width:100%;
-  max-width:420px;
-  padding:38px;
-  border-radius:30px;
+  max-width:360px;
+  padding:26px 24px;
+  border-radius:26px;
   background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04));
-  backdrop-filter:blur(22px);
-  box-shadow:0 35px 90px rgba(0,0,0,.7);
+  backdrop-filter:blur(20px);
+  box-shadow:0 30px 80px rgba(0,0,0,.75);
   text-align:center;
-  animation:fade .9s ease;
+  animation:fade .8s ease;
 }
 
 @keyframes fade{
-  from{opacity:0;transform:scale(.9)}
+  from{opacity:0;transform:scale(.92)}
   to{opacity:1;transform:scale(1)}
 }
 
 /* ASTRONAUT */
 .astronaut{
-  width:160px;
-  margin:0 auto 20px;
+  width:135px;
+  margin:0 auto 16px;
   display:block;
-  animation:float 6s ease-in-out infinite, rotate 18s linear infinite;
+  animation:float 6s ease-in-out infinite;
 }
 
 @keyframes float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-16px)}
-}
-
-@keyframes rotate{
-  from{rotate:0deg}
-  to{rotate:360deg}
+  50%{transform:translateY(-12px)}
 }
 
 /* TEXT */
 #text{
-  font-size:1.1rem;
-  line-height:1.9;
-  min-height:150px;
-  margin-bottom:22px;
+  font-size:1.02rem;
+  line-height:1.85;
+  min-height:130px;
+  margin-bottom:18px;
   white-space:pre-line;
+}
+
+/* DOTS */
+#dots{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-bottom:18px;
+}
+#dots span{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:rgba(255,255,255,.35);
+}
+#dots span.active{
+  background:white;
 }
 
 /* BUTTON */
 button{
-  padding:14px 36px;
+  padding:13px 30px;
   border-radius:999px;
   border:none;
   background:white;
   color:#1c2554;
-  font-size:1rem;
+  font-size:.95rem;
   font-weight:600;
   cursor:pointer;
   transition:.25s ease;
 }
-
 button:hover{transform:scale(1.05)}
 
 .options{
@@ -112,7 +123,6 @@ button:hover{transform:scale(1.05)}
   justify-content:center;
   position:relative;
 }
-
 .options button{flex:1}
 
 /* RUNAWAY */
@@ -123,9 +133,15 @@ button:hover{transform:scale(1.05)}
 
 /* HINT */
 .hint{
-  margin-top:14px;
-  font-size:.75rem;
-  opacity:.65;
+  margin-top:12px;
+  font-size:.7rem;
+  opacity:.6;
+}
+
+/* SMALL SCREEN */
+@media (max-height:680px){
+  .astronaut{width:115px}
+  #text{font-size:.95rem;min-height:110px}
 }
 </style>
 </head>
@@ -144,6 +160,8 @@ button:hover{transform:scale(1.05)}
     <img id="astro" class="astronaut" src="">
     <div id="text"></div>
 
+    <div id="dots"></div>
+
     <button id="nextBtn">Lanjut</button>
 
     <div class="options" id="options">
@@ -157,7 +175,7 @@ button:hover{transform:scale(1.05)}
 
 <script>
 /* ================= CONFIG ================= */
-const NOMOR_IKY = "0895387764779"; // GANTI NOMOR KAMU
+const NOMOR_IKY = "62895387764779"; // pakai format internasional
 /* ========================================= */
 
 const slides=[
@@ -178,9 +196,7 @@ const slides=[
   end:true}
 ];
 
-let index=0;
-let typing=null;
-let kaburCount=0;
+let index=0, typing=null, kaburCount=0;
 
 const textEl=document.getElementById("text");
 const videoEl=document.getElementById("bgVideo");
@@ -191,16 +207,17 @@ const btnTidak=document.getElementById("btnTidak");
 const music=document.getElementById("music");
 const overlay=document.getElementById("overlay");
 const card=document.getElementById("card");
+const dotsEl=document.getElementById("dots");
 
-/* MUSIC START */
+/* MUSIC */
 document.addEventListener("click",()=>{
  if(music.paused){
-  music.volume=0.2;
+  music.volume=0.25;
   music.play();
  }
 },{once:true});
 
-/* TYPE EFFECT */
+/* TYPE */
 function typeText(t,speed=45){
  clearInterval(typing);
  textEl.textContent="";
@@ -211,16 +228,29 @@ function typeText(t,speed=45){
  },speed);
 }
 
-/* LOAD SLIDE */
+/* DOTS */
+function renderDots(){
+ dotsEl.innerHTML="";
+ slides.forEach((_,i)=>{
+  const s=document.createElement("span");
+  if(i===index) s.classList.add("active");
+  dotsEl.appendChild(s);
+ });
+}
+
+/* LOAD */
 function loadSlide(){
- typeText(slides[index].text, index>=3?65:45);
+ typeText(slides[index].text,index>=3?65:45);
  videoEl.src=slides[index].video;
  astroEl.src=slides[index].astro;
+ renderDots();
 
- // mood galau
- if(index===3){
+ if(index>=3){
   overlay.style.background="rgba(0,0,0,.7)";
-  music.volume=0.35;
+  card.style.transform="scale(.97)";
+ }else{
+  overlay.style.background="rgba(0,0,0,.55)";
+  card.style.transform="scale(1)";
  }
 
  if(slides[index].end){
@@ -237,27 +267,18 @@ nextBtn.onclick=()=>{
 };
 
 /* ANSWER */
-function answer(yes){
- options.style.display="none";
-
- if(yes){
-  typeText("Tarik napas dulu ya…\n\nIky mau bilang sesuatu 🤍",65);
-
-  setTimeout(()=>{
-   typeText("Makasih ya, Upa.\nKarena sudah memilih Iky 🤍",55);
-  },2200);
-
-  setTimeout(()=>{
-   window.location.href=
-    "https://wa.me/"+NOMOR_IKY+
-    "?text="+encodeURIComponent(
-     "Iky… aku juga 🤍\nAku nangis bacanya.\nTerima kasih ya."
-    );
-  },5200);
- }
+function answer(){
+ typeText("Makasih ya, Upa 🤍\nKarena sudah memilih Iky.",60);
+ setTimeout(()=>{
+  window.location.href=
+   "https://wa.me/"+NOMOR_IKY+
+   "?text="+encodeURIComponent(
+    "Iky… aku juga 🤍\nAku nangis bacanya.\nTerima kasih ya."
+   );
+ },4200);
 }
 
-/* RUNAWAY BUTTON */
+/* RUNAWAY */
 btnTidak.addEventListener("mouseenter",kabur);
 btnTidak.addEventListener("touchstart",kabur);
 
@@ -266,15 +287,13 @@ function kabur(e){
  kaburCount++;
  btnTidak.style.left=(Math.random()*120-60)+"px";
  btnTidak.style.top=(Math.random()*120-60)+"px";
-
- if(kaburCount>=4){
+ if(kaburCount>=3){
   btnTidak.style.display="none";
-  typeText("Hehe… 😌\nDari awal cuma ada satu jawaban 🤍",60);
-  setTimeout(()=>answer(true),2600);
+  setTimeout(answer,1600);
  }
 }
 
-/* SWIPE FIX */
+/* SWIPE */
 let startX=0;
 card.addEventListener("touchstart",e=>{
  startX=e.touches[0].clientX;
@@ -289,12 +308,9 @@ card.addEventListener("touchend",e=>{
 
 /* INIT */
 setTimeout(()=>{
- typeText("Di semesta yang luas ini…",70);
- videoEl.src="slide1.mp4";
- astroEl.src="astro1.png";
-},800);
+ loadSlide();
+},600);
 </script>
 
 </body>
 </html>
-
