@@ -13,24 +13,77 @@ body{
  background:black;color:white;
 }
 
-/* ========== VIDEO BG ========== */
+/* ================= INTRO POPUP ================= */
+#intro{
+ position:fixed;
+ inset:0;
+ background:linear-gradient(180deg,#7b9dff,#b7c7ff);
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+}
+
+.intro-bubble{
+ background:white;
+ color:#333;
+ padding:16px 20px;
+ border-radius:18px;
+ max-width:260px;
+ font-size:.95rem;
+ line-height:1.6;
+ margin-bottom:18px;
+ position:relative;
+ animation:pop .4s ease;
+}
+
+.intro-bubble::after{
+ content:"";
+ position:absolute;
+ bottom:-10px;
+ left:30px;
+ border-width:10px 10px 0;
+ border-style:solid;
+ border-color:white transparent transparent;
+}
+
+@keyframes pop{
+ from{opacity:0;transform:scale(.85)}
+ to{opacity:1;transform:scale(1)}
+}
+
+#introBtn{
+ padding:14px 28px;
+ border:none;
+ border-radius:14px;
+ background:#6f8cff;
+ color:white;
+ font-size:1rem;
+ cursor:pointer;
+}
+
+/* ================= VIDEO BG ================= */
 video.bg{
- position:fixed;inset:0;
- width:100%;height:100%;
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
  object-fit:cover;
  z-index:-2;
  filter:brightness(.85);
 }
 
-/* ========== OVERLAY ========== */
+/* ================= OVERLAY ================= */
 .overlay{
- position:fixed;inset:0;
+ position:fixed;
+ inset:0;
  background:rgba(0,0,0,.55);
  z-index:-1;
  transition:1s;
 }
 
-/* ========== CENTER CARD ========== */
+/* ================= CENTER CARD ================= */
 .wrapper{
  height:100vh;
  display:flex;
@@ -56,7 +109,7 @@ video.bg{
  to{opacity:1;transform:scale(1)}
 }
 
-/* ========== ASTRONAUT ========== */
+/* ================= ASTRONAUT ================= */
 .astronaut{
  width:130px;
  margin:0 auto 14px;
@@ -68,7 +121,7 @@ video.bg{
  50%{transform:translateY(-12px)}
 }
 
-/* ========== TEXT ========== */
+/* ================= TEXT ================= */
 #text{
  font-size:1.02rem;
  line-height:1.85;
@@ -77,7 +130,7 @@ video.bg{
  white-space:pre-line;
 }
 
-/* ========== DOTS ========== */
+/* ================= DOTS ================= */
 #dots{
  display:flex;
  justify-content:center;
@@ -90,7 +143,7 @@ video.bg{
 }
 #dots span.active{background:white}
 
-/* ========== BUTTONS ========== */
+/* ================= BUTTON ================= */
 button{
  padding:13px 30px;
  border-radius:999px;
@@ -107,7 +160,7 @@ button:hover{transform:scale(1.05)}
 .options{display:none;gap:12px;justify-content:center}
 .options button{flex:1}
 
-/* ========== PHOTO SLIDE (OUTSIDE CARD) ========== */
+/* ================= PHOTO SLIDE (OUTSIDE CARD) ================= */
 .photo-wrap{
  position:fixed;
  inset:0;
@@ -149,13 +202,19 @@ button:hover{transform:scale(1.05)}
  background:linear-gradient(to top,rgba(0,0,0,.75),transparent);
 }
 
-/* ========== HINT ========== */
 .hint{font-size:.7rem;opacity:.6;margin-top:10px}
 </style>
 </head>
 
 <body>
 
+<!-- ========== INTRO ========== -->
+<div id="intro">
+ <div class="intro-bubble" id="introText"></div>
+ <button id="introBtn">Klik Disini</button>
+</div>
+
+<!-- ========== MAIN ========== -->
 <video id="bgVideo" class="bg" autoplay muted loop></video>
 <div class="overlay"></div>
 
@@ -183,10 +242,41 @@ button:hover{transform:scale(1.05)}
 </div>
 
 <script>
-/* ========== CONFIG ========== */
+/* ================= INTRO LOGIC ================= */
+const introTexts=[
+ "Ayang Upa 🤍",
+ "Aku bikin ini pelan-pelan…",
+ "Cuma buat kamu.",
+ "Klik sekali lagi ya…"
+];
+let introIndex=0;
+const intro=document.getElementById("intro");
+const introText=document.getElementById("introText");
+const introBtn=document.getElementById("introBtn");
+
+function typeIntro(t){
+ introText.textContent="";
+ let i=0;
+ const x=setInterval(()=>{
+  introText.textContent+=t[i++]||"";
+  if(i>t.length)clearInterval(x);
+ },55);
+}
+
+typeIntro(introTexts[0]);
+introBtn.onclick=()=>{
+ introIndex++;
+ if(introIndex<introTexts.length){
+  typeIntro(introTexts[introIndex]);
+ }else{
+  intro.style.display="none";
+  startMain();
+ }
+};
+
+/* ================= MAIN SCRIPT ================= */
 const NOMOR_IKY="62895387764779";
 
-/* ========== SLIDES ========== */
 const slides=[
  {video:"slide1.mp4",astro:"astro1.png",
   text:"Di semesta yang luas ini…\n\nAda satu hal kecil\nyang pelan-pelan bikin Iky berhenti."},
@@ -206,23 +296,20 @@ const slides=[
  ]}
 ];
 
-let index=0,typing=null,kaburCount=0;
-
+let index=0,typing=null;
 const textEl=document.getElementById("text");
 const astro=document.getElementById("astro");
 const video=document.getElementById("bgVideo");
 const nextBtn=document.getElementById("nextBtn");
-const photoWrap=document.getElementById("photoWrap");
 const dots=document.getElementById("dots");
+const photoWrap=document.getElementById("photoWrap");
 const music=document.getElementById("music");
 const btnTidak=document.getElementById("btnTidak");
 
-/* ========== MUSIC ========== */
 document.addEventListener("click",()=>{
  if(music.paused){music.volume=.25;music.play();}
 },{once:true});
 
-/* ========== TYPE ========== */
 function typeText(t,s=45){
  clearInterval(typing);
  textEl.textContent="";
@@ -233,7 +320,6 @@ function typeText(t,s=45){
  },s);
 }
 
-/* ========== DOTS ========== */
 function renderDots(){
  dots.innerHTML="";
  slides.forEach((_,i)=>{
@@ -243,23 +329,22 @@ function renderDots(){
  });
 }
 
-/* ========== PHOTO SLIDE POSISI FIX ========== */
 function showPhotoSlide(s){
  astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="none";
  photoWrap.style.display="block";
  photoWrap.innerHTML="";
 
- const positions=[
-  {top:"22%",left:"6%"},                    // kiri
-  {top:"22%",right:"6%"},                   // kanan
-  {bottom:"12%",left:"50%",transform:"translateX(-50%)"} // bawah
+ const pos=[
+  {top:"22%",left:"6%"},
+  {top:"22%",right:"6%"},
+  {bottom:"12%",left:"50%",transform:"translateX(-50%)"}
  ];
 
  s.photos.forEach((p,i)=>{
   const d=document.createElement("div");
   d.className="photo";
   d.innerHTML=`<img src="${p.src}"><span>${p.cap}</span>`;
-  Object.assign(d.style,positions[i]);
+  Object.assign(d.style,pos[i]);
   photoWrap.appendChild(d);
   setTimeout(()=>d.classList.add("show"),1200*i);
  });
@@ -267,7 +352,6 @@ function showPhotoSlide(s){
  setTimeout(answer,8500);
 }
 
-/* ========== LOAD SLIDE ========== */
 function loadSlide(){
  const s=slides[index];
  video.src=s.video;
@@ -275,24 +359,13 @@ function loadSlide(){
 
  if(s.photoSlide){showPhotoSlide(s);return;}
 
- astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="block";
  astro.src=s.astro;
+ astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="block";
  typeText(s.text,index>=3?65:45);
 }
 
-/* ========== NEXT ========== */
 nextBtn.onclick=()=>{index++;if(index<slides.length)loadSlide()};
 
-/* ========== RUNAWAY ========== */
-btnTidak.onmouseenter=btnTidak.ontouchstart=e=>{
- e.preventDefault();
- kaburCount++;
- btnTidak.style.left=(Math.random()*120-60)+"px";
- btnTidak.style.top=(Math.random()*120-60)+"px";
- if(kaburCount>=3)answer();
-};
-
-/* ========== ANSWER ========== */
 function answer(){
  typeText("Makasih ya, Upa 🤍\nKarena sudah memilih Iky.",60);
  setTimeout(()=>{
@@ -300,16 +373,7 @@ function answer(){
  },4200);
 }
 
-/* ========== SWIPE ========== */
-let startX=0;
-document.getElementById("card").ontouchstart=e=>startX=e.touches[0].clientX;
-document.getElementById("card").ontouchend=e=>{
- let d=e.changedTouches[0].clientX-startX;
- if(Math.abs(d)>70){index++;if(index<slides.length)loadSlide();}
-};
-
-/* ========== INIT ========== */
-setTimeout(loadSlide,600);
+function startMain(){setTimeout(loadSlide,600);}
 </script>
 
 </body>
