@@ -169,6 +169,16 @@ button{
 <script>
 const waBtn=document.getElementById("waBtn");
 
+ /* ================= AUDIO ADD-ON ================= */
+const music=document.getElementById("music");
+function playMusic(){
+ if(music.paused){
+  music.volume=0.25;
+  music.play().catch(()=>{});
+ }
+}
+document.addEventListener("click", playMusic, { once:true });
+
 /* INTRO */
 const introTexts=[
  "Ayang Upa 🤍",
