@@ -13,42 +13,76 @@ body{
  background:black;color:white;
 }
 
-/* ================= INTRO ================= */
+/* ================= INTRO POPUP ================= */
 #intro{
- position:fixed; inset:0; z-index:9999;
- display:flex; flex-direction:column;
- justify-content:center; align-items:center;
+ position:fixed;
+ inset:0;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
 }
+
+/* VIDEO INTRO */
 #intro video{
- position:absolute; inset:0;
- width:100%; height:100%;
- object-fit:cover; z-index:-2;
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ z-index:-2;
 }
+
+/* OVERLAY INTRO */
 #intro::after{
- content:""; position:absolute; inset:0;
- background:rgba(0,0,0,.5); z-index:-1;
+ content:"";
+ position:absolute;
+ inset:0;
+ background:rgba(0,0,0,.45);
+ z-index:-1;
 }
+
+/* ASTRONAUT INTRO */
 .intro-astro{
- width:140px; margin-bottom:18px;
+ width:140px;
+ margin-bottom:18px;
  animation:float 6s ease-in-out infinite;
 }
+
 .intro-bubble{
- background:white; color:#333;
+ background:white;
+ color:#333;
  padding:16px 20px;
  border-radius:18px;
  max-width:260px;
  font-size:.95rem;
  line-height:1.6;
- margin-bottom:16px;
+ margin-bottom:18px;
  position:relative;
+ animation:pop .4s ease;
 }
+
 .intro-bubble::after{
- content:""; position:absolute;
- bottom:-10px; left:30px;
+ content:"";
+ position:absolute;
+ bottom:-10px;
+ left:30px;
  border-width:10px 10px 0;
  border-style:solid;
  border-color:white transparent transparent;
 }
+
+@keyframes pop{
+ from{opacity:0;transform:scale(.85)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-12px)}
+}
+
 #introBtn{
  padding:14px 28px;
  border:none;
@@ -56,45 +90,63 @@ body{
  background:#6f8cff;
  color:white;
  font-size:1rem;
+ cursor:pointer;
 }
 
-/* ================= MAIN BG ================= */
+/* ================= VIDEO BG ================= */
 video.bg{
- position:fixed; inset:0;
- width:100%; height:100%;
- object-fit:cover; z-index:-2;
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ z-index:-2;
  filter:brightness(.85);
 }
+
+/* ================= OVERLAY ================= */
 .overlay{
- position:fixed; inset:0;
+ position:fixed;
+ inset:0;
  background:rgba(0,0,0,.55);
  z-index:-1;
+ transition:1s;
 }
 
-/* ================= CARD ================= */
+/* ================= CENTER CARD ================= */
 .wrapper{
- height:100vh; display:flex;
- justify-content:center; align-items:center;
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
  padding:16px;
 }
+
 .card{
- width:100%; max-width:360px;
+ width:100%;
+ max-width:360px;
  padding:26px 24px;
  border-radius:26px;
  background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04));
  backdrop-filter:blur(20px);
  box-shadow:0 30px 80px rgba(0,0,0,.75);
  text-align:center;
+ animation:fade .8s ease;
 }
+
+@keyframes fade{
+ from{opacity:0;transform:scale(.92)}
+ to{opacity:1;transform:scale(1)}
+}
+
+/* ================= ASTRONAUT ================= */
 .astronaut{
  width:130px;
  margin:0 auto 14px;
  animation:float 6s ease-in-out infinite;
 }
-@keyframes float{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-12px)}
-}
+
+/* ================= TEXT ================= */
 #text{
  font-size:1.02rem;
  line-height:1.85;
@@ -102,6 +154,8 @@ video.bg{
  margin-bottom:18px;
  white-space:pre-line;
 }
+
+/* ================= DOTS ================= */
 #dots{
  display:flex;
  justify-content:center;
@@ -109,11 +163,12 @@ video.bg{
  margin-bottom:18px;
 }
 #dots span{
- width:7px;height:7px;
- border-radius:50%;
- background:rgba(255,255,255,.35);
+ width:7px;height:7px;border-radius:50%;
+ background:rgba(255,255,255,.35)
 }
 #dots span.active{background:white}
+
+/* ================= BUTTON ================= */
 button{
  padding:13px 30px;
  border-radius:999px;
@@ -122,26 +177,23 @@ button{
  color:#1c2554;
  font-size:.95rem;
  font-weight:600;
+ cursor:pointer;
+ transition:.25s;
 }
-.options{
- display:none;
- gap:12px;
- justify-content:center;
-}
-.options button{flex:1}
+button:hover{transform:scale(1.05)}
 
-/* RUNAWAY */
-#btnTidak{
- position:relative;
-}
+.options{display:none;gap:12px;justify-content:center}
+.options button{flex:1}
 
 /* ================= PHOTO SLIDE ================= */
 .photo-wrap{
- position:fixed; inset:0;
- pointer-events:none;
+ position:fixed;
+ inset:0;
  z-index:5;
+ pointer-events:none;
  display:none;
 }
+
 .photo{
  position:absolute;
  width:130px;
@@ -154,19 +206,22 @@ button{
  transition:all 1.5s ease;
  animation:polaroid 6s ease-in-out infinite;
 }
+
 @keyframes polaroid{
  0%,100%{transform:rotate(-2deg)}
  50%{transform:rotate(2deg)}
 }
+
 .photo.show{
  opacity:1;
- transform:scale(1) rotate(0);
+ transform:scale(1) rotate(0deg);
  filter:blur(0);
 }
-.photo img{width:100%}
+
+.photo img{width:100%;display:block}
 .photo span{
  position:absolute;
- bottom:0; left:0; right:0;
+ bottom:0;left:0;right:0;
  padding:8px;
  font-size:.7rem;
  background:linear-gradient(to top,rgba(0,0,0,.75),transparent);
@@ -176,7 +231,7 @@ button{
 
 <body>
 
-<!-- INTRO -->
+<!-- ========== INTRO ========== -->
 <div id="intro">
  <video src="intro.mp4" autoplay muted loop playsinline></video>
  <img src="astro_intro.png" class="intro-astro">
@@ -184,8 +239,8 @@ button{
  <button id="introBtn">Klik Disini</button>
 </div>
 
-<!-- MAIN -->
-<video id="bgVideo" class="bg" autoplay muted loop playsinline></video>
+<!-- ========== MAIN ========== -->
+<video id="bgVideo" class="bg" autoplay muted loop></video>
 <div class="overlay"></div>
 
 <audio id="music" loop>
@@ -203,31 +258,27 @@ button{
   <button id="nextBtn">Lanjut</button>
 
   <div class="options" id="options">
-   <button onclick="answer(true)">Aku juga 🤍</button>
+   <button onclick="answer()">Aku juga 🤍</button>
    <button id="btnTidak">Aku masih mikir…</button>
   </div>
+
+  <div class="hint">Swipe kiri / kanan ✨</div>
  </div>
 </div>
 
 <script>
-/* INTRO LOGIC */
+/* ================= INTRO LOGIC ================= */
 const introTexts=[
  "Ayang Upa 🤍",
- "Aku mau ngomong sesuatu…",
- "Pelan-pelan ya.",
- "Sekarang masuk 🤍"
+ "Aku bikin ini pelan-pelan…",
+ "Cuma buat kamu.",
+ "Klik sekali lagi ya…"
 ];
 let introIndex=0;
+const intro=document.getElementById("intro");
 const introText=document.getElementById("introText");
-document.getElementById("introBtn").onclick=()=>{
- introIndex++;
- if(introIndex<introTexts.length){
-  typeIntro(introTexts[introIndex]);
- }else{
-  document.getElementById("intro").style.display="none";
-  startMain();
- }
-};
+const introBtn=document.getElementById("introBtn");
+
 function typeIntro(t){
  introText.textContent="";
  let i=0;
@@ -236,43 +287,63 @@ function typeIntro(t){
   if(i>t.length)clearInterval(x);
  },55);
 }
-typeIntro(introTexts[0]);
 
-/* MAIN DATA */
+typeIntro(introTexts[0]);
+introBtn.onclick=()=>{
+ introIndex++;
+ if(introIndex<introTexts.length){
+  typeIntro(introTexts[introIndex]);
+ }else{
+  intro.style.display="none";
+  startMain();
+ }
+};
+
+/* ================= MAIN SCRIPT ================= */
 const NOMOR_IKY="62895387764779";
+
 const slides=[
- {video:"slide1.mp4",astro:"astro1.png",text:"Di semesta yang luas ini…\n\nAda satu hal kecil\nyang pelan-pelan bikin Iky berhenti."},
- {video:"slide2.mp4",astro:"astro2.png",text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena kamu."},
- {video:"slide3.mp4",astro:"astro3.png",text:"Bukan karena kamu sempurna.\n\nTapi karena bersama kamu,\nIky ngerasa pulang."},
- {video:"slide4.mp4",astro:"astro4.png",text:"Aku takut kehilangan kamu.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
- {video:"slide1.mp4",astro:"astro5.png",text:"Kalau Iky boleh minta satu hal…\n\nTinggallah.\nDi semesta kecil bernama kita 🤍",end:true},
- {video:"slide2.mp4",photo:true}
+ {video:"slide1.mp4",astro:"astro1.png",
+  text:"Di semesta yang luas ini…\n\nAda satu hal kecil\nyang pelan-pelan bikin Iky berhenti."},
+ {video:"slide2.mp4",astro:"astro2.png",
+  text:"Upa…\n\nTanpa sadar,\nhari-hari Iky mulai penuh\nkarena kamu."},
+ {video:"slide3.mp4",astro:"astro3.png",
+  text:"Bukan karena kamu sempurna.\n\nTapi karena bersama kamu,\nIky ngerasa pulang."},
+ {video:"slide4.mp4",astro:"astro4.png",
+  text:"Aku takut kehilangan kamu.\n\nBukan karena aku lemah…\nTapi karena aku sayang sedalam ini."},
+ {video:"slide1.mp4",astro:"astro5.png",
+  text:"Kalau Iky boleh minta satu hal…\n\nTinggallah.\nDi semesta kecil bernama kita 🤍"},
+ {video:"slide2.mp4",photoSlide:true,
+  photos:[
+   {src:"photo1.jpeg",cap:"Senyum yang selalu bikin aku tenang 🤍"},
+   {src:"photo2.jpeg",cap:"Tanpa sadar, kamu rumah."},
+   {src:"photo3.jpeg",cap:"Aku jatuh… pelan-pelan, tapi dalam."}
+ ]}
 ];
 
 let index=0,typing=null;
 const textEl=document.getElementById("text");
 const astro=document.getElementById("astro");
+const video=document.getElementById("bgVideo");
 const nextBtn=document.getElementById("nextBtn");
-const options=document.getElementById("options");
 const dots=document.getElementById("dots");
 const photoWrap=document.getElementById("photoWrap");
 const music=document.getElementById("music");
 
-/* MUSIC */
-document.addEventListener("click",()=>{music.play()},{once:true});
+document.addEventListener("click",()=>{
+ if(music.paused){music.volume=.25;music.play();}
+},{once:true});
 
-/* TYPE */
-function typeText(t){
+function typeText(t,s=45){
  clearInterval(typing);
  textEl.textContent="";
  let i=0;
  typing=setInterval(()=>{
   textEl.textContent+=t[i++]||"";
   if(i>t.length)clearInterval(typing);
- },45);
+ },s);
 }
 
-/* DOTS */
 function renderDots(){
  dots.innerHTML="";
  slides.forEach((_,i)=>{
@@ -282,66 +353,49 @@ function renderDots(){
  });
 }
 
-/* LOAD SLIDE */
-function loadSlide(){
- const s=slides[index];
- document.getElementById("bgVideo").src=s.video;
- renderDots();
-
- if(s.photo){
-  showPhotos();
-  return;
- }
-
- astro.src=s.astro;
- typeText(s.text);
-
- if(s.end){
-  nextBtn.style.display="none";
-  options.style.display="flex";
- }
-}
-
-/* NEXT */
-nextBtn.onclick=()=>{index++;loadSlide()};
-
-/* RUNAWAY */
-document.getElementById("btnTidak").onmouseenter=e=>{
- e.target.style.left=(Math.random()*120-60)+"px";
- e.target.style.top=(Math.random()*120-60)+"px";
-};
-
-/* PHOTO SLIDE */
-function showPhotos(){
- astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display=options.style.display="none";
+function showPhotoSlide(s){
+ astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="none";
  photoWrap.style.display="block";
+ photoWrap.innerHTML="";
 
  const pos=[
   {top:"22%",left:"6%"},
   {top:"22%",right:"6%"},
   {bottom:"12%",left:"50%",transform:"translateX(-50%)"}
  ];
- ["photo1.jpeg","photo2.jpeg","photo3.jpeg"].forEach((p,i)=>{
+
+ s.photos.forEach((p,i)=>{
   const d=document.createElement("div");
   d.className="photo";
-  d.innerHTML=`<img src="${p}"><span>🤍</span>`;
+  d.innerHTML=`<img src="${p.src}"><span>${p.cap}</span>`;
   Object.assign(d.style,pos[i]);
   photoWrap.appendChild(d);
   setTimeout(()=>d.classList.add("show"),1200*i);
  });
- setTimeout(()=>answer(true),8500);
+
+ setTimeout(answer,8500);
 }
 
-/* ANSWER */
+function loadSlide(){
+ const s=slides[index];
+ video.src=s.video;
+ renderDots();
+
+ if(s.photoSlide){showPhotoSlide(s);return;}
+
+ astro.src=s.astro;
+ astro.style.display=textEl.style.display=dots.style.display=nextBtn.style.display="block";
+ typeText(s.text,index>=3?65:45);
+}
+
+nextBtn.onclick=()=>{index++;if(index<slides.length)loadSlide()};
+
 function answer(){
- typeText("Makasih ya, Upa 🤍");
- setTimeout(()=>{
-  location.href="https://wa.me/"+NOMOR_IKY;
- },3500);
+ typeText("Makasih ya, Upa 🤍\nKarena sudah memilih Iky.",60);
+ setTimeout(()=>{location.href="https://wa.me/"+NOMOR_IKY},4200);
 }
 
-/* START */
-function startMain(){loadSlide()}
+function startMain(){setTimeout(loadSlide,600);}
 </script>
 
 </body>
